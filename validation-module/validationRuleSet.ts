@@ -1,3 +1,5 @@
+import { stringify } from "querystring";
+
 export type SerializedValidationRuleSet = {
     name: string;
     minLength: number | undefined;
@@ -6,9 +8,29 @@ export type SerializedValidationRuleSet = {
 
 export enum CharacterTypes {
     numbers = 'numbers',
+    letters = 'letters',
     uppercaseLetters = 'uppercaseLetters',
     lowercaseLetters = 'lowercaseLetters',
     specialCharacters = 'specialCharacters'
+};
+
+export type ValidationResult = {
+    minLength?: {
+        isValid: Boolean;
+    };
+    characterTypes?: {
+        [key in CharacterTypes]?: {
+            isValid: Boolean;
+        };
+    };
+};
+
+const characterTypesRegExp = {
+    [CharacterTypes.numbers]: /[0-9]/,
+    [CharacterTypes.letters]: /[A-Z]/i,
+    [CharacterTypes.uppercaseLetters]: /[A-Z]/,
+    [CharacterTypes.lowercaseLetters]: /[a-z]/,
+    [CharacterTypes.specialCharacters]: /[^A-Za-z0-9]/,
 };
 
 export default class ValidationRuleSet {
@@ -23,9 +45,23 @@ export default class ValidationRuleSet {
         this.characterTypesRequired = characterTypesRequired;
     }
 
-    public validate(input: string): Boolean {
+    public validate(input: string): ValidationResult {
+        const validationResult: ValidationResult = {};
 
-        return true;
+        if (!!this.minLength) {
+            validationResult.minLength = { isValid: input.length >= this.minLength };
+        }
+
+        if (!!this.characterTypesRequired) {
+            validationResult.characterTypes = {};
+            this.characterTypesRequired.forEach(characterType => {
+                validationResult.characterTypes![characterType] = {
+                    isValid: input.match(characterTypesRegExp[characterType]) !== null
+                }
+            });
+        }
+
+        return validationResult;
     }
 
     static deserialize(object: SerializedValidationRuleSet): ValidationRuleSet {

@@ -1,16 +1,17 @@
 [
     {
-        "name": "unsecure-password",
+        "name": "insecure-password",
         "minLength": 6,
-        "characterTypesRequired": [] 
+        "characterTypesRequired": [
+            "letters"
+        ]
     },
     {
         "name": "okay-password",
         "minLength": 8,
         "characterTypesRequired": [
             "numbers",
-            "uppercaseLetters",
-            "lowercaseLetters"
+            "letters"
         ] 
     },
     {

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import PasswordField from '../components/password-field/password-field'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,8 +14,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        
+      <main>
+        <div>
+          <div>Insecure Password</div>
+          <PasswordField validationRuleSetName='insecure-password' />
+        </div>
+        <div>
+          <div>Okay Password</div>
+          <PasswordField validationRuleSetName='okay-password' />
+        </div>
+        <div>
+          <div>Secure Password</div>
+          <PasswordField validationRuleSetName='secure-password' />
+        </div>
       </main>
     </>
   )
