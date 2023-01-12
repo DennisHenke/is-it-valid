@@ -1,0 +1,26 @@
+[
+    {
+        "name": "unsecure-password",
+        "minLength": 6,
+        "characterTypesRequired": [] 
+    },
+    {
+        "name": "okay-password",
+        "minLength": 8,
+        "characterTypesRequired": [
+            "numbers",
+            "uppercaseLetters",
+            "lowercaseLetters"
+        ] 
+    },
+    {
+        "name": "secure-password",
+        "minLength": 12,
+        "characterTypesRequired": [
+            "numbers",
+            "uppercaseLetters",
+            "lowercaseLetters",
+            "specialCharacters"
+        ] 
+    }
+]
